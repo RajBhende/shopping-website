@@ -1,15 +1,22 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { Search, User, ShoppingBag } from "lucide-react";
 
 export default function Navbar() {
-  const navLinks = ["Home", "Catalog", "Contact", "About Us"];
+  const navLinks = [
+    { name: "Home", path: "/" },
+    { name: "Catalog", path: "/catalog" },
+    { name: "Contact", path: "/contact" },
+    { name: "About Us", path: "/about-us" }
+  ];
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 100);
+      setIsScrolled(window.scrollY > 50);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -17,8 +24,8 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className={`header-menu style-one absolute top-0 left-0 right-0 w-full md:h-[74px] h-[56px] transition-all duration-300 z-50 ${
-      isScrolled 
+    <nav className={`header-menu style-one fixed top-[44px] md:top-[44px] left-0 right-0 w-full md:h-[74px] h-[56px] transition-all duration-300 z-40 ${
+      isScrolled
         ? "bg-white shadow-md" 
         : "bg-transparent"
     }`}>
@@ -38,17 +45,17 @@ export default function Navbar() {
 
         {/* Center - Navigation Links */}
         <div className="hidden md:flex items-center justify-center gap-10 md:gap-12 flex-1 px-8">
-          {navLinks.map((link, index) => (
+          {navLinks.map((link) => (
             <a
-              key={link}
-              href="#"
+              key={link.path}
+              href={link.path}
               className={`text-xs md:text-sm font-semibold uppercase tracking-widest transition-all duration-200 relative ${
                 isScrolled ? "text-gray-800 hover:text-gray-600" : "text-gray-900 hover:text-gray-700"
               } ${
-                index === 0 ? "border-b-2 border-gray-900" : ""
+                pathname === link.path ? "border-b-2 border-gray-900" : ""
               }`}
             >
-              {link}
+              {link.name}
             </a>
           ))}
         </div>

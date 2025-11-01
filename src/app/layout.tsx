@@ -9,7 +9,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Anvogue - Fashion For Every Occasion",
+  title: "BS - Fashion For Every Occasion",
   description: "Shop the latest fashion trends and collections",
 };
 

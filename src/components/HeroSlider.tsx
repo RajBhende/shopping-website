@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import TopNav from "./TopNav";
 import Navbar from "./Navbar";
 
 interface Slide {
@@ -43,7 +44,8 @@ export default function HeroSlider({ slides, autoSlideInterval = 5000 }: HeroSli
   };
 
   return (
-    <section className="hero-slider relative w-full bg-[#FFFEF7] overflow-hidden">
+    <section className="hero-slider relative w-full bg-[#FFFEF7] overflow-hidden pt-19">
+      <TopNav />
       <Navbar />
       <div className="container mx-auto px-4 py-12 md:py-16 lg:py-20 relative">
         {slides.map((slide, index) => (

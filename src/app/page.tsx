@@ -1,7 +1,51 @@
-import { Facebook, Instagram, Youtube, Twitter, } from "lucide-react";
+"use client";
+
+import { useState } from "react";
 import HeroSlider from "@/components/HeroSlider";
+import Services from "@/components/Services";
+import Testimonials from "@/components/Testimonials";
+import Footer from "@/components/Footer";
 
 export default function Home() {
+  const [selectedCategory, setSelectedCategory] = useState("TOP");
+  
+  const categories = ["TOP", "T-SHIRT", "DRESS", "SETS", "SHIRT"];
+  const collections = ["T-SHIRT", "HOODIES"];
+  
+  const products = {
+    "TOP": [
+      { id: 1, name: "Casual Top", description: "Comfortable everyday wear", price: "$49.99", image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=600&h=600&fit=crop" },
+      { id: 2, name: "Elegant Blouse", description: "Perfect for any occasion", price: "$59.99", image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600&h=600&fit=crop" },
+      { id: 3, name: "Summer Top", description: "Light and breezy", price: "$39.99", image: "https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?w=600&h=600&fit=crop" },
+      { id: 4, name: "Designer Top", description: "Premium quality", price: "$79.99", image: "https://images.unsplash.com/photo-1603424697798-e6e0d6c5c19f?w=600&h=600&fit=crop" }
+    ],
+    "T-SHIRT": [
+      { id: 5, name: "Classic Tee", description: "Essential wardrobe piece", price: "$29.99", image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=600&fit=crop" },
+      { id: 6, name: "Graphic Tee", description: "Express your style", price: "$34.99", image: "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=600&h=600&fit=crop" },
+      { id: 7, name: "Premium Tee", description: "Super soft cotton", price: "$39.99", image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600&h=600&fit=crop" },
+      { id: 8, name: "V-Neck Tee", description: "Comfortable fit", price: "$32.99", image: "https://images.unsplash.com/photo-1618932260643-eee4a2f652a6?w=600&h=600&fit=crop" }
+    ],
+    "DRESS": [
+      { id: 9, name: "Summer Dress", description: "Flowy and feminine", price: "$89.99", image: "https://images.unsplash.com/photo-1566479179817-6a6debf55c8c?w=600&h=600&fit=crop" },
+      { id: 10, name: "Evening Dress", description: "Elegant and sophisticated", price: "$129.99", image: "https://images.unsplash.com/photo-1566393029567-cce23b8ee9bc?w=600&h=600&fit=crop" },
+      { id: 11, name: "Casual Dress", description: "Perfect for any day", price: "$69.99", image: "https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=600&h=600&fit=crop" },
+      { id: 12, name: "Maxi Dress", description: "Long and luxurious", price: "$99.99", image: "https://images.unsplash.com/photo-1564257571346-7b05a5e88e13?w=600&h=600&fit=crop" }
+    ],
+    "SETS": [
+      { id: 13, name: "Sport Set", description: "Comfortable workout wear", price: "$79.99", image: "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=600&h=600&fit=crop" },
+      { id: 14, name: "Pajama Set", description: "Cozy nightwear", price: "$49.99", image: "https://images.unsplash.com/photo-1588270660678-6bd02ce4da86?w=600&h=600&fit=crop" },
+      { id: 15, name: "Matching Set", description: "Coordinated style", price: "$89.99", image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&h=600&fit=crop" },
+      { id: 16, name: "Designer Set", description: "Premium matching", price: "$119.99", image: "https://images.unsplash.com/photo-1594978578938-585f26cbcd06?w=600&h=600&fit=crop" }
+    ],
+    "SHIRT": [
+      { id: 17, name: "Classic Shirt", description: "Timeless style", price: "$64.99", image: "https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?w=600&h=600&fit=crop" },
+      { id: 18, name: "Oversized Shirt", description: "Relaxed fit", price: "$54.99", image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=600&h=600&fit=crop" },
+      { id: 19, name: "Denim Shirt", description: "Versatile wear", price: "$69.99", image: "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=600&h=600&fit=crop" },
+      { id: 20, name: "Formal Shirt", description: "Professional look", price: "$59.99", image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600&h=600&fit=crop" }
+    ]
+  };
+
+  const currentProducts = products[selectedCategory as keyof typeof products] || [];
   // Sample slides data - you can modify this or fetch from an API
   const slides = [
     {
@@ -33,48 +77,85 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      {/* Top Header Bar */}
-      <header className="top-nav md:h-[44px] h-[30px] style-one bg-[#2F2725] relative text-white">
-        {/* Thin dark brown line at the top */}
-        <div className="h-[2px] bg-[#5d4037]"></div>
-        
-        <div className="container mx-auto px-4 h-full flex items-center justify-between relative">
-          {/* Left side - Language/Currency dropdowns (empty for now) */}
-          <div className="flex items-center gap-4">
-            {/* Can add language and currency dropdowns here later */}
-          </div>
-
-          {/* Center - Promotional Message */}
-          <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 text-center text-[11px] md:text-[12px] text-white font-[var(--font-poppins)] font-medium uppercase tracking-wide">
-            NEW CUSTOMERS SAVE 10% WITH THE CODE GET10
-          </div>
-
-          {/* Right side - Social Media Icons */}
-          <div className="right-content flex items-center gap-3 max-md:hidden pr-4">
-            {/* Facebook */}
-            <a href="#" className="hover:opacity-80 transition-opacity" aria-label="Facebook">
-              <Facebook className="w-3.5 h-3.5" />
-            </a>
-            {/* Instagram */}
-            <a href="#" className="hover:opacity-80 transition-opacity" aria-label="Instagram">
-              <Instagram className="w-3.5 h-3.5" />
-            </a>
-            {/* YouTube */}
-            <a href="#" className="hover:opacity-80 transition-opacity" aria-label="YouTube">
-              <Youtube className="w-3.5 h-3.5" />
-            </a>
-            {/* Twitter/X */}
-            <a href="#" className="hover:opacity-80 transition-opacity" aria-label="Twitter">
-              <Twitter className="w-3.5 h-3.5" />
-            </a>
-            {/* Pinterest */}
-          
-          </div>
-        </div>
-      </header>
-
       {/* Hero Slider Component */}
       <HeroSlider slides={slides} autoSlideInterval={5000} />
+
+      {/* What's New Section */}
+      <section className="bg-white py-16 md:py-24">
+        <div className="container mx-auto px-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 text-center mb-8">What&apos;s New</h2>
+          
+          {/* Category Filter */}
+          <div className="bg-gray-100 rounded-lg p-2 mb-12 max-w-2xl mx-auto">
+            <div className="flex justify-center items-center gap-2 flex-wrap">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  className={`px-4 py-2 rounded-md font-semibold uppercase tracking-wider text-xs md:text-sm transition-all duration-200 ${
+                    selectedCategory === category
+                      ? "bg-white text-gray-900 shadow-sm"
+                      : "text-gray-600 hover:text-gray-900"
+                  }`}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Products Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {currentProducts.map((product) => (
+              <div key={product.id} className="bg-white group cursor-pointer">
+                <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden mb-4">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <h3 className="font-semibold text-gray-900">{product.name}</h3>
+                  <p className="text-sm text-gray-600">{product.description}</p>
+                  <p className="font-bold text-gray-900 text-lg">{product.price}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Explore Collections Section */}
+      <section className="bg-white py-16 md:py-24">
+        <div className="container mx-auto px-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 text-center mb-12">Explore Collections</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {collections.map((collection, index) => (
+              <div key={index} className="group cursor-pointer">
+                <div className="aspect-[16/9] bg-gray-100 rounded-lg overflow-hidden mb-4">
+                  <img
+                    src={`https://images.unsplash.com/photo-${1500000000000 + index * 20000000}?w=1200&h=675&fit=crop`}
+                    alt={collection}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 text-center">{collection}</h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <Services />
+
+      {/* Testimonials Section */}
+      <Testimonials />
+
+      {/* Footer Section */}
+      <Footer />
     </div>
   );
 }
