@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { Star } from "lucide-react";
+import MarqueeComponent from "@/components/Marquee";
 
 interface Testimonial {
   rating: number;
@@ -12,8 +12,6 @@ interface Testimonial {
 }
 
 export default function Testimonials() {
-  const [currentSlide, setCurrentSlide] = useState(0);
-
   const testimonials: Testimonial[] = [
     {
       rating: 5,
@@ -80,24 +78,6 @@ export default function Testimonials() {
     }
   ];
 
-  // Auto-slide functionality
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % Math.ceil(testimonials.length / 3));
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [testimonials.length]);
-
-  const goToSlide = (index: number) => {
-    setCurrentSlide(index);
-  };
-
-  // Get the 3 testimonials to display for current slide
-  const getDisplayedTestimonials = () => {
-    const start = currentSlide * 3;
-    return testimonials.slice(start, start + 3);
-  };
-
   return (
     <section className="bg-gray-50 py-16 md:py-24">
       <div className="container mx-auto px-8">
@@ -106,65 +86,51 @@ export default function Testimonials() {
           <p className="text-gray-600">Real reviews from our happy customers</p>
         </div>
         
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            {getDisplayedTestimonials().map((testimonial, index) => (
-              <div 
-                key={testimonial.name} 
-                className="bg-white rounded-lg p-8 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 group"
-              >
-                {/* Star Rating */}
-                <div className="flex gap-1 mb-5">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className={`w-5 h-5 transition-all duration-200 ${
-                        i < testimonial.rating
-                          ? "fill-yellow-400 text-yellow-400"
-                          : "fill-none text-gray-300"
-                      }`}
-                    />
-                  ))}
-                </div>
+        <div className="max-w-7xl mx-auto">
+          <MarqueeComponent speed={30} pauseOnHover={true} gradient={true} gradientColor="#f9fafb">
+            <div className="flex gap-6 px-4">
+              {testimonials.map((testimonial) => (
+                <div 
+                  key={testimonial.name} 
+                  className="bg-white rounded-lg p-6 md:p-8 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 group min-w-[320px] md:min-w-[380px] max-w-[380px] flex-shrink-0"
+                >
+                  {/* Star Rating */}
+                  <div className="flex gap-1 mb-5">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className={`w-5 h-5 transition-all duration-200 ${
+                          i < testimonial.rating
+                            ? "fill-yellow-400 text-yellow-400"
+                            : "fill-none text-gray-300"
+                        }`}
+                      />
+                    ))}
+                  </div>
 
-                {/* Title */}
-                <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-gray-700 transition-colors">
-                  {testimonial.title}
-                </h3>
+                  {/* Title */}
+                  <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-4 group-hover:text-gray-700 transition-colors">
+                    {testimonial.title}
+                  </h3>
 
-                {/* Review */}
-                <p className="text-gray-600 leading-relaxed mb-6 line-clamp-4">
-                  "{testimonial.review}"
-                </p>
-
-                {/* Bottom Section */}
-                <div className="border-t border-gray-100 pt-4">
-                  <p className="text-base font-bold text-gray-900 mb-1">
-                    {testimonial.name}
+                  {/* Review */}
+                  <p className="text-gray-600 leading-relaxed mb-6 text-sm md:text-base">
+                    "{testimonial.review}"
                   </p>
-                  <p className="text-xs text-gray-500">
-                    {testimonial.date}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
 
-          {/* Pagination Dots */}
-          <div className="flex justify-center gap-3">
-            {Array.from({ length: Math.ceil(testimonials.length / 3) }).map((_, index) => (
-              <button
-                key={index}
-                onClick={() => goToSlide(index)}
-                className={`rounded-full transition-all duration-300 ${
-                  index === currentSlide
-                    ? "bg-gray-900 w-10 h-2"
-                    : "bg-gray-300 hover:bg-gray-400 w-2 h-2"
-                }`}
-                aria-label={`Go to testimonial ${index + 1}`}
-              />
-            ))}
-          </div>
+                  {/* Bottom Section */}
+                  <div className="border-t border-gray-100 pt-4">
+                    <p className="text-base font-bold text-gray-900 mb-1">
+                      {testimonial.name}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      {testimonial.date}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </MarqueeComponent>
         </div>
       </div>
     </section>

@@ -1,6 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useInterval } from "@/hooks/useInterval";
+import { TextReveal } from "@/components/ui/text-reveal";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import TopNav from "./TopNav";
 import Navbar from "./Navbar";
 
@@ -21,15 +25,13 @@ interface HeroSliderProps {
 export default function HeroSlider({ slides, autoSlideInterval = 5000 }: HeroSliderProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Auto-slide functionality
-  useEffect(() => {
-    if (autoSlideInterval > 0) {
-      const interval = setInterval(() => {
-        setCurrentSlide((prev) => (prev + 1) % slides.length);
-      }, autoSlideInterval);
-      return () => clearInterval(interval);
-    }
-  }, [slides.length, autoSlideInterval]);
+  // Auto-slide functionality - Using useInterval hook
+  useInterval(
+    () => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    },
+    autoSlideInterval > 0 ? autoSlideInterval : null
+  );
 
   const goToSlide = (index: number) => {
     setCurrentSlide(index);
@@ -56,26 +58,74 @@ export default function HeroSlider({ slides, autoSlideInterval = 5000 }: HeroSli
             }`}
           >
             {/* Left side - Text content */}
-            <div className="flex-1 flex flex-col justify-center pl-0 md:pl-20 lg:pl-32 xl:pl-40 space-y-6 md:space-y-8">
-              {/* Badge */}
-              <div className="text-[11px] md:text-sm font-semibold uppercase tracking-[2px] text-gray-800">
-                {slide.badge}
-              </div>
+            <div 
+              className="flex-1 flex flex-col justify-center pl-0 md:pl-20 lg:pl-32 xl:pl-40 space-y-6 md:space-y-8 items-start relative z-20 select-none"
+              onClick={(e) => e.stopPropagation()}
+              style={{ userSelect: 'none', WebkitUserSelect: 'none', MozUserSelect: 'none', msUserSelect: 'none' }}
+            >
+              {/* Badge - Only animate when slide is active */}
+              {index === currentSlide && (
+                <div className="w-full">
+                  <div className="text-left text-[11px] md:text-sm font-semibold uppercase tracking-[2px] text-gray-800 pl-1 md:pl-1.5">
+                    <TextReveal 
+                      key={`badge-${slide.id}-${currentSlide}`}
+                      variant="blur" 
+                      className="text-[11px] md:text-sm font-semibold uppercase tracking-[2px] text-gray-800 w-full block"
+                      delay={0.1}
+                      startOnView={false}
+                    >
+                      {slide.badge}
+                    </TextReveal>
+                  </div>
+                </div>
+              )}
 
-              {/* Main Heading */}
-              <div className="space-y-2">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                  {slide.title}
-                </h1>
-                <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                  {slide.subtitle}
-                </h2>
-              </div>
+              {/* Main Heading - Only animate when slide is active */}
+              {index === currentSlide && (
+                <div className="space-y-2 w-full">
+                  <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight w-full">
+                    <TextReveal 
+                      key={`title-${slide.id}-${currentSlide}`}
+                      variant="blur" 
+                      className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight w-full block"
+                      delay={0.2}
+                      wordLevel={true}
+                      startOnView={false}
+                    >
+                      {slide.title}
+                    </TextReveal>
+                  </h1>
+                  <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight w-full">
+                    <TextReveal 
+                      key={`subtitle-${slide.id}-${currentSlide}`}
+                      variant="blur" 
+                      className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight w-full block"
+                      delay={0.4}
+                      wordLevel={true}
+                      startOnView={false}
+                    >
+                      {slide.subtitle}
+                    </TextReveal>
+                  </h2>
+                </div>
+              )}
 
-              {/* CTA Button */}
-              <button className="button-main bg-gray-900 text-white px-6 py-3 rounded-lg text-xs font-semibold uppercase tracking-wide hover:bg-gray-800 transition-colors duration-200 md:mt-8 mt-3 w-fit">
-                {slide.buttonText}
-              </button>
+              {/* CTA Button - Only animate when slide is active */}
+              {index === currentSlide && (
+                <div className="md:mt-8 mt-3 w-full">
+                  <div className="text-left">
+                    <Link href="/collections/all">
+                      <Button 
+                        className="bg-gray-900 text-white px-6 py-3 rounded-lg text-xs font-semibold uppercase tracking-wide hover:bg-gray-800 transition-colors duration-200"
+                        variant="mono"
+                        size="lg"
+                      >
+                        {slide.buttonText}
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Right side - Image */}
@@ -91,17 +141,17 @@ export default function HeroSlider({ slides, autoSlideInterval = 5000 }: HeroSli
           </div>
         ))}
 
-        {/* Clickable areas for slider navigation */}
+        {/* Clickable areas for slider navigation - Only on image side */}
         {slides.length > 1 && (
           <>
             <div 
               onClick={goToPrevious}
-              className="absolute left-0 top-0 bottom-[80px] w-1/3 cursor-pointer z-10"
+              className="absolute left-0 top-0 bottom-[80px] w-[50px] md:w-[100px] cursor-pointer z-10"
               aria-label="Previous slide"
             ></div>
             <div 
               onClick={goToNext}
-              className="absolute right-0 top-0 bottom-[80px] w-1/3 cursor-pointer z-10"
+              className="absolute right-0 top-0 bottom-[80px] w-[50px] md:w-[100px] cursor-pointer z-10"
               aria-label="Next slide"
             ></div>
           </>

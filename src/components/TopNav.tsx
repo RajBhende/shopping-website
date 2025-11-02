@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Youtube, Twitter } from "lucide-react";
+import { Instagram } from "lucide-react";
 
 export default function TopNav() {
   return (
@@ -6,7 +6,7 @@ export default function TopNav() {
       {/* Thin dark brown line at the top */}
       <div className="h-[2px] bg-[#5d4037]"></div>
       
-      <div className="container mx-auto px-4 h-full flex items-center justify-between relative">
+      <div className="max-w-7xl mx-auto px-8 md:px-12 h-full flex items-center justify-between relative">
         {/* Left side - Language/Currency dropdowns (empty for now) */}
         <div className="flex items-center gap-4">
           {/* Can add language and currency dropdowns here later */}
@@ -18,23 +18,21 @@ export default function TopNav() {
         </div>
 
         {/* Right side - Social Media Icons */}
-        <div className="right-content flex items-center gap-3 max-md:hidden pr-4">
-          {/* Facebook */}
-          <a href="#" className="hover:opacity-80 transition-opacity" aria-label="Facebook">
-            <Facebook className="w-3.5 h-3.5" />
-          </a>
-          {/* Instagram */}
-          <a href="#" className="hover:opacity-80 transition-opacity" aria-label="Instagram">
+        <div className="right-content flex items-center gap-5 md:gap-6 max-md:hidden flex-shrink-0">
+          {/* Invisible placeholder to match Search icon position */}
+          <div className="w-4 h-4 md:w-5 md:h-5 opacity-0 pointer-events-none">
+            <div className="w-full h-full"></div>
+          </div>
+          
+          {/* Instagram - aligned with Profile icon */}
+          <a href="https://www.instagram.com/bs_custom12/" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity" aria-label="Instagram">
             <Instagram className="w-3.5 h-3.5" />
           </a>
-          {/* YouTube */}
-          <a href="#" className="hover:opacity-80 transition-opacity" aria-label="YouTube">
-            <Youtube className="w-3.5 h-3.5" />
-          </a>
-          {/* Twitter/X */}
-          <a href="#" className="hover:opacity-80 transition-opacity" aria-label="Twitter">
-            <Twitter className="w-3.5 h-3.5" />
-          </a>
+          
+          {/* Invisible placeholder to match ShoppingBag icon position */}
+          <div className="w-4 h-4 md:w-5 md:h-5 opacity-0 pointer-events-none">
+            <div className="w-full h-full"></div>
+          </div>
         </div>
       </div>
     </header>
